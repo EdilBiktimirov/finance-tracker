@@ -26,9 +26,13 @@ const Login = () => {
   };
 
   const submitFormHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    await dispatch(login(state)).unwrap();
-    navigate('/');
+    try {
+      event.preventDefault();
+      await dispatch(login(state)).unwrap();
+      navigate('/');
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const googleLoginHandler = async (credential: string) => {

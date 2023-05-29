@@ -181,10 +181,27 @@ transactionsRouter.delete('/:id', auth, async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
 
+    const existingTransaction = await Transaction.findById(req.params.id);
+    if (existingTransaction) {
+      const existingAccount = await Account.findById(existingTransaction.account)
+      const existingCategory = await Category.findById(existingTransaction.category);
+
+
+      if (existingCategory?.type === 'income') {
+        await Account.findOneAndUpdate(
+          {_id: existingAccount?._id},
+          {$inc: {amount: -existingTransaction.sum}})
+      } else {
+        await Account.findOneAndUpdate(
+          {_id: existingAccount?._id},
+          {$inc: {amount: +existingTransaction.sum}})
+      }
+    }
+
     const result = await Transaction.deleteOne({_id: req.params.id, user: user._id});
 
     if (result.deletedCount) {
-      return res.send({message: 'Account removed'});
+      return res.send({message: 'Transaction removed'});
     } else {
       res.status(403).send({message: 'Forbidden'});
     }

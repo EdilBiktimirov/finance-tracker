@@ -4,13 +4,14 @@ import Layout from "./components/UI/Layout";
 import Register from "./features/users/Register";
 import Login from "./features/users/Login";
 import Accounts from "./features/accounts/Accounts";
-import AccountTypesForm from "./features/accountTypes/components/accountTypesForm";
-import AddAccount from "./features/accounts/components/AddAccount";
 import Transactions from "./features/transactions/Transactions";
 import CategoriesForm from "./features/categories/components/CategoriesForm";
 import AddTransaction from "./features/transactions/AddTransaction";
-import Statistics from "./features/statistics/Statistics";
+import Statistics from "./features/transactions/Statistics";
+import AddAccount from "./features/accounts/AddAccount";
+import AccountTypesForm from "./features/accountTypes/components/AccountTypesForm";
 
+//добавить протектед роут
 function App() {
   return (
     <>
