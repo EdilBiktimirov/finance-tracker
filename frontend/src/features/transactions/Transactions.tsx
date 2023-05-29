@@ -19,6 +19,7 @@ const Transactions = () => {
   const deleteTransaction = async (idTransaction: string) => {
     await dispatch(removeTransaction(idTransaction));
     await dispatch(fetchTransactions(id));
+    await dispatch(fetchOneAccount(id));
   };
 
   useEffect(() => {
