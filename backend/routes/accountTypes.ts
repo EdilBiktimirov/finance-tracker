@@ -60,7 +60,7 @@ accountTypesRouter.patch('/:id', auth, imagesUpload.single('image'), async (req,
     });
 
     if (accountType.modifiedCount < 1) {
-      res.status(404).send({ message: 'Cant find Account type' });
+      res.status(404).send({message: 'Cant find Account type'});
     } else {
       res.send({accountType, message: 'Account type was updated'});
     }

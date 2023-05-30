@@ -49,4 +49,22 @@ categoriesRouter.delete('/:id', auth, async (req, res, next) => {
   }
 });
 
+categoriesRouter.patch('/:id', auth, async (req, res) => {
+  try {
+    const category = await Category.updateOne({_id: req.params.id}, {
+      $set: {
+        title: req.body.title,
+      },
+    });
+
+    if (category.modifiedCount < 1) {
+      res.status(404).send({message: 'Cant find Category'});
+    } else {
+      res.send({category, message: 'Category was updated'});
+    }
+  } catch {
+    return res.sendStatus(500);
+  }
+});
+
 export default categoriesRouter;
