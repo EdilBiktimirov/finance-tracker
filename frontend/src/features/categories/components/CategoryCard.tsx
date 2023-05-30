@@ -35,7 +35,7 @@ const CategoryCard: React.FC<Props> = ({category, onDeleteBtnClick}) => {
           color="info"
           variant="outlined"
           size="small"
-          sx={{mb: 2, fontWeight: 'bold'}}
+          sx={{mb: 2, fontWeight: 'bold', width: '100%'}}
         >
           Edit
         </Button>
