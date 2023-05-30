@@ -23,14 +23,14 @@ const run = async () => {
 
   const [user1, user2] = await User.create({
     email: "user1@gmail.com",
-    displayName: "User1",
+    displayName: "User1 Userovich",
     password: "123",
     token: crypto.randomUUID(),
     role: "user",
     avatar: 'fixtures/adminAvatar.png'
   }, {
     email: "user2@gmail.com",
-    displayName: "User2",
+    displayName: "User2 Userovich",
     password: "123",
     token: crypto.randomUUID(),
     role: "user",
