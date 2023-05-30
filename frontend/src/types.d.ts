@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import {Dayjs} from 'dayjs';
 
 export interface Account {
   _id: string;
@@ -78,7 +78,6 @@ export interface StatisticsMutation {
   category: string,
   account: string,
 }
-
 
 export interface RegisterMutation {
   email: string;

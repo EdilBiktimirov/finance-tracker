@@ -62,7 +62,13 @@ const TransactionsForm: React.FC<Props> = ({accounts, categories}) => {
       onSubmit={submitFormHandler}
     >
       <Grid container direction="column" spacing={2}>
-        <Typography component={'h4'} variant={'h4'} sx={{m: 2, fontWeight: 'bolder', textAlign: 'center'}}>Add new transaction:</Typography>
+        <Typography
+          component={'h4'}
+          variant={'h4'}
+          sx={{m: 2, fontWeight: 'bolder', textAlign: 'center'}}
+        >
+          Add new transaction:
+        </Typography>
         <Grid item>
           <TextField
             select
@@ -144,7 +150,6 @@ const TransactionsForm: React.FC<Props> = ({accounts, categories}) => {
             Add
           </LoadingButton>
         </Grid>
-
       </Grid>
     </form>
   );

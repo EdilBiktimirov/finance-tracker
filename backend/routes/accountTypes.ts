@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import auth, {RequestWithUser} from "../middleware/auth";
-import AccountType from "../models/AccountType";
 import {imagesUpload} from "../multer";
+import AccountType from "../models/AccountType";
 import Account from "../models/Account";
 
 const accountTypesRouter = express.Router();
@@ -25,10 +25,7 @@ accountTypesRouter.get('/:id', auth, async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
 
-    console.log(user._id)
-
     const accountTypes = await AccountType.findOne({_id: req.params.id, user: user._id});
-    console.log(accountTypes)
 
     return res.send(accountTypes);
   } catch (error) {

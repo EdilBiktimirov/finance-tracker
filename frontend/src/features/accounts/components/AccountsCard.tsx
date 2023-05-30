@@ -1,4 +1,6 @@
 import React, {MouseEventHandler} from 'react';
+import {selectLoadingRemoveAccount} from "../accountsSlice";
+import {useNavigate} from "react-router-dom";
 import {
   Card,
   CardActionArea,
@@ -7,12 +9,10 @@ import {
   Grid,
   Typography
 } from "@mui/material";
-import {Account} from "../../../types";
 import {useAppSelector} from "../../../app/hooks";
 import {apiUrl} from "../../../constants";
 import {LoadingButton} from "@mui/lab";
-import {selectLoadingRemoveAccount} from "../accountsSlice";
-import {useNavigate} from "react-router-dom";
+import type {Account} from "../../../types";
 
 interface Props {
   account: Account;
@@ -23,7 +23,6 @@ const AccountsCard: React.FC<Props> = ({account, onDeleteBtnClick}) => {
   const navigate = useNavigate();
   const loadingRemoveBtn = useAppSelector(selectLoadingRemoveAccount);
   let cardImage = apiUrl + '/' + account.accountType.image;
-
 
   return (
     <Grid item>
@@ -53,7 +52,6 @@ const AccountsCard: React.FC<Props> = ({account, onDeleteBtnClick}) => {
             </Grid>
           </CardContent>
         </CardActionArea>
-
         <Grid item>
           <LoadingButton
             color="error"

@@ -45,4 +45,3 @@ export const removeAccount = createAsyncThunk<void, string>(
       throw new Error();
     }
   });
-

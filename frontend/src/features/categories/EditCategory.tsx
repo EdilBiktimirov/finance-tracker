@@ -5,7 +5,7 @@ import {fetchOneCategory} from "./categoriesThunks";
 import {selectLoading, selectOneCategory} from "./categoriesSlice";
 import {Box, CircularProgress} from "@mui/material";
 import CategoriesForm from "./components/CategoriesForm";
-import {CategoryMutation} from "../../types";
+import type {CategoryMutation} from "../../types";
 
 const EditCategory = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ const EditCategory = () => {
 
   useEffect(() => {
     dispatch(fetchOneCategory(id))
-  }, [dispatch])
+  }, [dispatch, id]);
 
   return (
     <div>

@@ -61,8 +61,6 @@ export const transactionsSlice = createSlice({
       state.loadingSearch = false;
       state.error = true;
     });
-
-
     builder.addCase(createTransaction.pending, (state) => {
       state.loadingCreateTransaction = true;
       state.createTransactionError = null;

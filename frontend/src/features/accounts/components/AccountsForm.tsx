@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import {useNavigate} from "react-router-dom";
 import {selectCreateAccountError, selectLoadingCreateAccount} from "../accountsSlice";
-import {AccountMutation, AccountType} from "../../../types";
 import {createAccount} from "../accountsThunks";
 import {Grid, MenuItem, TextField, Typography} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import {enqueueSnackbar} from "notistack";
+import type {AccountMutation, AccountType} from "../../../types";
 
 interface Props {
   accountTypes: AccountType[];

@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import {Box, CircularProgress} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectLoading} from "./accountsSlice";
-import AccountsForm from "./components/AccountsForm";
 import {fetchAccountTypes} from "../accountTypes/accountTypesThunks";
 import {selectAccountTypes} from "../accountTypes/accountTypesSlice";
+import {Box, CircularProgress} from "@mui/material";
+import AccountsForm from "./components/AccountsForm";
 
 const AddAccount = () => {
   const dispatch = useAppDispatch();

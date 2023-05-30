@@ -3,9 +3,9 @@ import {fetchOneAccountType} from "./accountTypesThunks";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {useParams} from "react-router-dom";
 import {selectLoading, selectOneAccountType} from "./accountTypesSlice";
-import AccountTypesForm from "./components/AccountTypesForm";
-import {AccountTypeMutation} from "../../types";
 import {Box, CircularProgress} from "@mui/material";
+import AccountTypesForm from "./components/AccountTypesForm";
+import type {AccountTypeMutation} from "../../types";
 
 const EditAccountTypes = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ const EditAccountTypes = () => {
 
   useEffect(() => {
     dispatch(fetchOneAccountType(id))
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   return (
     <div>

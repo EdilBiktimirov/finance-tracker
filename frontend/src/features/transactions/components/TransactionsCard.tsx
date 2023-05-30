@@ -1,15 +1,15 @@
 import React, {MouseEventHandler} from 'react';
-import {Transaction} from "../../../types";
-import {Grid, Typography} from "@mui/material";
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import {selectLoadingRemoveTransaction} from "../transactionsSlice";
+import AccordionDetails from '@mui/material/AccordionDetails';
+import {Grid, Typography} from "@mui/material";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {LoadingButton} from "@mui/lab";
 import {useAppSelector} from "../../../app/hooks";
-import {selectLoadingRemoveTransaction} from "../transactionsSlice";
-import utc from 'dayjs/plugin/utc';
+import type {Transaction} from "../../../types";
 
 export interface Props {
   transaction: Transaction;
@@ -30,7 +30,6 @@ const TransactionsCard: React.FC<Props> = ({transaction, onDeleteBtnClick}) => {
     symbol = '-';
   }
 
-
   return (
     <Accordion sx={{width: '100%'}}>
       <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
@@ -46,7 +45,6 @@ const TransactionsCard: React.FC<Props> = ({transaction, onDeleteBtnClick}) => {
         <Grid item xs>
           <Typography style={transactionTypeStyle}>{symbol + ' ' + transaction.sum + ' KGS'}</Typography>
         </Grid>
-
       </AccordionSummary>
       <AccordionDetails sx={{background: 'WhiteSmoke'}}>
         <Grid item xs>

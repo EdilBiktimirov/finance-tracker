@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import {useNavigate} from "react-router-dom";
-import {Grid, TextField, Typography} from "@mui/material";
-import {LoadingButton} from "@mui/lab";
-import {AccountTypeMutation} from "../../../types";
 import {selectCreateAccountTypeError, selectLoadingCreateAccountType} from "../accountTypesSlice";
 import {createAccountType, editAccountType} from "../accountTypesThunks";
-import FileInput from "../../../components/UI/FileInput";
+import {Grid, TextField, Typography} from "@mui/material";
+import {LoadingButton} from "@mui/lab";
 import {enqueueSnackbar} from "notistack";
+import FileInput from "../../../components/UI/FileInput";
+import type {AccountTypeMutation} from "../../../types";
 
 interface Props {
   editedAccountType?: AccountTypeMutation;
@@ -20,7 +20,6 @@ const AccountTypesForm: React.FC<Props> = ({editedAccountType, isEdit, accountTy
   const navigate = useNavigate();
   const loadingAddBtn = useAppSelector(selectLoadingCreateAccountType);
   const error = useAppSelector(selectCreateAccountTypeError);
-
 
 
   const initialState = editedAccountType
@@ -46,7 +45,6 @@ const AccountTypesForm: React.FC<Props> = ({editedAccountType, isEdit, accountTy
         enqueueSnackbar('Account type added!', {variant: 'success'});
         navigate('/cabinet/account-types');
       }
-
     } catch (e) {
       console.log(e);
     }
@@ -82,7 +80,13 @@ const AccountTypesForm: React.FC<Props> = ({editedAccountType, isEdit, accountTy
       onSubmit={submitFormHandler}
     >
       <Grid container direction="column" spacing={2}>
-        <Typography component={'h4'} variant={'h4'} sx={{m: 2, fontWeight: 'bolder', textAlign: 'center'}}>Add new account type:</Typography>
+        <Typography
+          component={'h4'}
+          variant={'h4'}
+          sx={{m: 2, fontWeight: 'bolder', textAlign: 'center'}}
+        >
+          {isEdit ? 'Edit account type:' : ' Add new account type:'}
+        </Typography>
         <Grid item xs>
           <TextField
             id="title"
@@ -112,7 +116,7 @@ const AccountTypesForm: React.FC<Props> = ({editedAccountType, isEdit, accountTy
             color="success"
             variant="contained"
           >
-            Add
+            {isEdit ? "Edit" : "Add"}
           </LoadingButton>
         </Grid>
       </Grid>

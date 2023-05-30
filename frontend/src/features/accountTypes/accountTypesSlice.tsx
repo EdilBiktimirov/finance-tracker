@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
-import {AccountType, ValidationError} from "../../types";
 import {
   createAccountType,
   editAccountType,
@@ -8,6 +7,7 @@ import {
   fetchOneAccountType,
   removeAccountType
 } from "./accountTypesThunks";
+import type {AccountType, ValidationError} from "../../types";
 
 interface AccountTypesState {
   accountTypes: AccountType[];
@@ -47,7 +47,6 @@ export const accountTypesSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
-
     builder.addCase(fetchOneAccountType.pending, (state) => {
       state.loading = true;
       state.error = false;
@@ -61,7 +60,6 @@ export const accountTypesSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
-
     builder.addCase(createAccountType.pending, (state) => {
       state.loadingCreateAccountType = true;
       state.createAccountTypeError = null;

@@ -1,9 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {Statistics, StatisticsMutation, Transaction, TransactionMutation, ValidationError} from "../../types";
 import axiosApi from "../../axiosApi";
 import {RootState} from "../../app/store";
 import {isAxiosError} from "axios";
 import {enqueueSnackbar} from "notistack";
+import type {Statistics, StatisticsMutation, Transaction, TransactionMutation, ValidationError} from "../../types";
 
 export const fetchTransactions = createAsyncThunk<Transaction[], string | undefined>(
   'transactions/fetchAll',

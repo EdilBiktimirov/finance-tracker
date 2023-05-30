@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
-import TransactionsForm from "./components/TransactionsForm";
 import {fetchAccounts} from "../accounts/accountsThunks";
 import {fetchCategories} from "../categories/categoriesThunks";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAccounts, selectLoading} from "../accounts/accountsSlice";
 import {selectCategories} from "../categories/categoriesSlice";
 import {Box, CircularProgress} from "@mui/material";
+import TransactionsForm from "./components/TransactionsForm";
 
 const AddTransaction = () => {
   const dispatch = useAppDispatch();
@@ -13,12 +13,10 @@ const AddTransaction = () => {
   const categories = useAppSelector(selectCategories);
   const loading = useAppSelector(selectLoading);
 
-
   useEffect(() => {
     dispatch(fetchAccounts());
     dispatch(fetchCategories());
   }, [dispatch]);
-
 
   return (
     <>

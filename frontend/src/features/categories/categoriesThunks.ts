@@ -1,9 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import axiosApi from "../../axiosApi";
-import {Category, CategoryMutation, ValidationError} from "../../types";
 import {RootState} from "../../app/store";
 import {isAxiosError} from "axios";
+import axiosApi from "../../axiosApi";
 import {enqueueSnackbar} from "notistack";
+import type {Category, CategoryMutation, ValidationError} from "../../types";
 
 export const fetchCategories = createAsyncThunk<Category[]>(
   'categories/fetchAll',
@@ -36,18 +36,16 @@ export const createCategory = createAsyncThunk<void, CategoryMutation, { state: 
     }
   });
 
-export const removeCategory = createAsyncThunk<void, string, { state: RootState, rejectValue: ValidationError }>(
+export const removeCategory = createAsyncThunk<void, string, { state: RootState }>(
   'categories/removeOne',
-  async (id, {getState, rejectWithValue}) => {
+  async (id, {getState}) => {
     try {
       const user = getState().users.user;
       if (user) {
         await axiosApi.delete('/categories/' + id);
       }
     } catch (e) {
-      if (isAxiosError(e) && e.response && e.response.status === 400) {
-        return rejectWithValue(e.response.data as ValidationError);
-      } else if (isAxiosError(e) && e.response && e.response.status === 403) {
+      if (isAxiosError(e) && e.response && e.response.status === 403) {
         enqueueSnackbar(e.response.data.message, {variant: 'error'});
       }
       throw e;
@@ -56,7 +54,7 @@ export const removeCategory = createAsyncThunk<void, string, { state: RootState,
 
 interface UpdatedData {
   category: CategoryMutation,
-  id: string
+  id: string,
 }
 
 export const editCategory = createAsyncThunk<void, UpdatedData, { state: RootState, rejectValue: ValidationError }>(

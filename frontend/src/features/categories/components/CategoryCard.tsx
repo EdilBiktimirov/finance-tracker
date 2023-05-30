@@ -1,10 +1,10 @@
 import React, {MouseEventHandler} from 'react';
-import {Category} from "../../../types";
+import {selectLoadingRemoveCategory} from "../categoriesSlice";
 import {Button, Grid, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {LoadingButton} from "@mui/lab";
 import {useAppSelector} from "../../../app/hooks";
-import {selectLoadingRemoveCategory} from "../categoriesSlice";
+import type {Category} from "../../../types";
 
 interface Props {
   category: Category;
@@ -23,11 +23,9 @@ const CategoryCard: React.FC<Props> = ({category, onDeleteBtnClick}) => {
       <Grid item sx={{minWidth: '200px'}}>
         <Typography>{category.title}</Typography>
       </Grid>
-
-      <Grid item >
+      <Grid item>
         <Typography>{category.type}</Typography>
       </Grid>
-
       <Grid item>
         <Button
           component={Link}

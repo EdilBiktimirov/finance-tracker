@@ -1,6 +1,6 @@
 import mongoose, {Types} from 'mongoose';
-import type {ICategory} from "../types";
 import User from "./User";
+import type {ICategory} from "../types";
 
 const Schema = mongoose.Schema;
 

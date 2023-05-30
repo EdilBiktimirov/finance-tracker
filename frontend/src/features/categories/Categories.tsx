@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {fetchCategories, removeCategory} from "./categoriesThunks";
 import {selectCategories, selectLoading} from "./categoriesSlice";
-import {Box, Button, CircularProgress} from "@mui/material";
-import CategoryCard from "./components/CategoryCard";
+import {Box, Button, CircularProgress, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
+import CategoryCard from "./components/CategoryCard";
 
 const Categories = () => {
   const dispatch = useAppDispatch();
@@ -16,20 +16,31 @@ const Categories = () => {
     await dispatch(fetchCategories());
   };
 
-
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
-
 
   return (
     <div>
       {loading ? <Box sx={{display: 'flex', justifyContent: 'center'}}>
         <CircularProgress color={'warning'} thickness={6} style={{translate: ''}}/>
-      </Box> : categories.map((category) => {
-        return <CategoryCard category={category} onDeleteBtnClick={() => deleteCategory(category._id)}/>
-      })}
-
+      </Box> : <>
+        <Typography
+          component={'h4'}
+          variant={'h4'}
+          sx={{m: 2, fontWeight: 'bolder', textAlign: 'center'}}
+        >
+          Transactions categories:
+        </Typography>
+        {categories.map((category) => {
+          return <CategoryCard
+            category={category}
+            onDeleteBtnClick={() => deleteCategory(category._id)}
+            key={category._id}
+          />
+        })}
+      </>
+      }
       {!categories.length && <Button
           component={Link}
           to={'/add-new-category'}

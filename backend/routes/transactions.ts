@@ -27,17 +27,10 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
     const user = (req as RequestWithUser).user;
     const queryStartDate = new Date(req.query.start as string);
     const queryEndDate = new Date(req.query.end as string);
-
-    // queryEndDate.setDate(queryEndDate.getDate() + 1);
-    // queryStartDate.setDate(queryStartDate.getDate() - 1);
     const category = req.query.category;
     const account = req.query.account;
 
-    // console.log(req.query.start, req.query.end)
-    // console.log(queryStartDate, queryEndDate)
-
     const result = await Transaction.aggregate([
-      // Фильтр для поиска транзакций пользователя в указанном периоде
       {
         $match: {
           user: new Types.ObjectId(user._id),
@@ -49,13 +42,11 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
           account: new Types.ObjectId(account as string),
         },
       },
-      // Преобразование формата даты в строку
       {
         $addFields: {
           dateString: {$dateToString: {format: '%d.%m.%Y', date: '$createdAt'}},
         },
       },
-      // Группировка по дню и типу транзакции
       {
         $group: {
           _id: {
@@ -67,7 +58,6 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
           amount: {$sum: '$sum'},
         },
       },
-      // Преобразование формата даты обратно в строку и распределение сумм по полям income и expense
       {
         $group: {
           _id: '$_id.dateString',
@@ -77,14 +67,8 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
               $cond: [{$eq: ['$_id.type', 'income']}, '$amount', 0],
             },
           },
-          // expenses: {
-          //   $sum: {
-          //     $cond: [{$eq: ['$_id.type', 'expenses']}, '$amount', 0],
-          //   },
-          // },
         },
       },
-      // Проекция результатов
       {
         $project: {
           _id: 0,
@@ -92,17 +76,13 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
           KGS: 1,
         },
       },
-      // Сортировка по дате
       {
         $sort: {
           date: 1,
         },
       },
     ]);
-
-    console.log(result);
     return res.send(result);
-
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
@@ -136,7 +116,6 @@ transactionsRouter.post('/', auth, async (req, res, next) => {
 
     const dayjs = require('dayjs');
     const utc = require('dayjs/plugin/utc');
-
     dayjs.extend(utc);
 
     const newTransaction = await new Transaction({
@@ -147,8 +126,6 @@ transactionsRouter.post('/', auth, async (req, res, next) => {
       createdAt: dayjs.utc(req.body.createdAt).toDate(),
       comment: req.body.comment,
     });
-
-    console.log(newTransaction)
 
     const existingCategory = await Category.findById(req.body.category);
 
@@ -188,7 +165,6 @@ transactionsRouter.delete('/:id', auth, async (req, res, next) => {
       const existingAccount = await Account.findById(existingTransaction.account)
       const existingCategory = await Category.findById(existingTransaction.category);
 
-
       if (existingCategory?.type === 'income') {
         await Account.findOneAndUpdate(
           {_id: existingAccount?._id},
@@ -199,7 +175,6 @@ transactionsRouter.delete('/:id', auth, async (req, res, next) => {
           {$inc: {amount: +existingTransaction.sum}})
       }
     }
-
     const result = await Transaction.deleteOne({_id: req.params.id, user: user._id});
 
     if (result.deletedCount) {

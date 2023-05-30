@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
-import {Account, ValidationError} from "../../types";
 import {createAccount, fetchAccounts, fetchOneAccount, removeAccount} from "./accountsThunks";
+import type {Account, ValidationError} from "../../types";
 
 interface AccountsState {
   accounts: Account[];

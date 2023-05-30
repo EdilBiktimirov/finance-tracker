@@ -1,12 +1,11 @@
 import React, {MouseEventHandler} from 'react';
-import {AccountType} from "../../../types";
+import {selectLoadingRemoveAccountType} from "../accountTypesSlice";
 import {Button, Grid, Typography} from "@mui/material";
 import {apiUrl} from "../../../constants";
 import {Link} from 'react-router-dom';
 import {LoadingButton} from "@mui/lab";
 import {useAppSelector} from "../../../app/hooks";
-import {selectLoadingRemoveAccountType} from "../accountTypesSlice";
-
+import type {AccountType} from "../../../types";
 
 interface Props {
   accountType: AccountType,
@@ -28,7 +27,6 @@ const AccountTypeCard: React.FC<Props> = ({accountType, onDeleteBtnClick}) => {
       <Grid item>
         <Typography>{accountType.title}</Typography>
       </Grid>
-
       <Grid item>
         <Button
           component={Link}
@@ -50,7 +48,6 @@ const AccountTypeCard: React.FC<Props> = ({accountType, onDeleteBtnClick}) => {
           Delete
         </LoadingButton>
       </Grid>
-
     </Grid>
   );
 };

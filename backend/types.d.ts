@@ -29,7 +29,6 @@ export interface ITransaction {
   comment: string;
 }
 
-
 export interface IUser {
   email: string;
   password: string;

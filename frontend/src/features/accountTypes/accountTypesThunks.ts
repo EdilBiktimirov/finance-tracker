@@ -1,9 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import axiosApi from "../../axiosApi";
-import {AccountType, AccountTypeMutation, ValidationError} from "../../types";
 import {RootState} from "../../app/store";
 import {isAxiosError} from "axios";
+import axiosApi from "../../axiosApi";
 import {enqueueSnackbar} from "notistack";
+import type {AccountType, AccountTypeMutation, ValidationError} from "../../types";
 
 export const fetchAccountTypes = createAsyncThunk<AccountType[]>(
   'accountTypes/fetchAll',
@@ -15,8 +15,8 @@ export const fetchAccountTypes = createAsyncThunk<AccountType[]>(
 export const fetchOneAccountType = createAsyncThunk<AccountType, string>(
   'accountTypes/fetchOne',
   async (id) => {
-      const response = await axiosApi.get<AccountType>('/account-types/' + id);
-      return response.data;
+    const response = await axiosApi.get<AccountType>('/account-types/' + id);
+    return response.data;
   });
 
 export const createAccountType = createAsyncThunk<void, AccountTypeMutation, { state: RootState, rejectValue: ValidationError }>(
@@ -26,7 +26,6 @@ export const createAccountType = createAsyncThunk<void, AccountTypeMutation, { s
       const user = getState().users.user;
 
       if (user) {
-
         const formData = new FormData();
         const keys = Object.keys(accountType) as (keyof AccountTypeMutation)[];
 
@@ -47,18 +46,16 @@ export const createAccountType = createAsyncThunk<void, AccountTypeMutation, { s
     }
   });
 
-export const removeAccountType = createAsyncThunk<void, string, {state: RootState, rejectValue: ValidationError }>(
+export const removeAccountType = createAsyncThunk<void, string, { state: RootState }>(
   'accountTypes/removeOne',
-  async (id, {getState, rejectWithValue}) => {
+  async (id, {getState}) => {
     try {
       const user = getState().users.user;
       if (user) {
         await axiosApi.delete('/account-types/' + id);
       }
     } catch (e) {
-      if (isAxiosError(e) && e.response && e.response.status === 400) {
-        return rejectWithValue(e.response.data as ValidationError);
-      } else if (isAxiosError(e) && e.response && e.response.status === 403) {
+      if (isAxiosError(e) && e.response && e.response.status === 403) {
         enqueueSnackbar(e.response.data.message, {variant: 'error'});
       }
       throw e;
@@ -77,7 +74,6 @@ export const editAccountType = createAsyncThunk<void, UpdatedData, { state: Root
       const user = getState().users.user;
 
       if (user) {
-
         const formData = new FormData();
         const keys = Object.keys(data.accountType) as (keyof AccountTypeMutation)[];
 
@@ -97,4 +93,3 @@ export const editAccountType = createAsyncThunk<void, UpdatedData, { state: Root
       throw e;
     }
   });
-

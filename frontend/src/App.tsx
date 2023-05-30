@@ -1,5 +1,7 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
+import {selectUser} from "./features/users/usersSlice";
+import {useAppSelector} from "./app/hooks";
 import Layout from "./components/UI/Layout";
 import Register from "./features/users/Register";
 import Login from "./features/users/Login";
@@ -14,8 +16,6 @@ import EditAccountTypes from "./features/accountTypes/EditAccountTypes";
 import AccountTypes from "./features/accountTypes/AccountTypes";
 import EditCategory from "./features/categories/EditCategory";
 import Categories from "./features/categories/Categories";
-import {selectUser} from "./features/users/usersSlice";
-import {useAppSelector} from "./app/hooks";
 import ProtectedRoute from "./components/UI/ProtectedRoute";
 
 function App() {

@@ -1,19 +1,18 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {cleanStatistics, selectLoading, selectSearchLoading, selectStatistics} from "./transactionsSlice";
+import {useParams} from "react-router-dom";
+import {searchTransactions} from "./transactionsThunks";
+import {selectCategories} from "../categories/categoriesSlice";
+import {fetchCategories} from "../categories/categoriesThunks";
 import {Box, CircularProgress, MenuItem, TextField, Typography} from "@mui/material";
 import {Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis} from "recharts";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {StatisticsMutation} from "../../types";
-import {selectCategories} from "../categories/categoriesSlice";
-import {fetchCategories} from "../categories/categoriesThunks";
 import {LoadingButton} from "@mui/lab";
 import {enqueueSnackbar} from "notistack";
-import {useParams} from "react-router-dom";
-import {searchTransactions} from "./transactionsThunks";
-
+import type {StatisticsMutation} from "../../types";
 
 const Statistics = () => {
   const dispatch = useAppDispatch();
@@ -47,7 +46,6 @@ const Statistics = () => {
       enqueueSnackbar('Please select both dates!', {variant: 'warning'});
     }
   };
-
 
   let statisticsBox = (
     <Typography
@@ -125,7 +123,6 @@ const Statistics = () => {
               </TextField>
             </DemoContainer>
           </LocalizationProvider>
-
           <LoadingButton
             type="submit"
             color="info"
@@ -135,7 +132,6 @@ const Statistics = () => {
             Show statistic
           </LoadingButton>
         </form>
-
         {loadingSearch ? <Box sx={{display: 'flex', justifyContent: 'center'}}>
           <CircularProgress color={'warning'} thickness={6} style={{translate: ''}}/>
         </Box> : statisticsBox

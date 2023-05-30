@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import {useNavigate} from "react-router-dom";
-import {CategoryMutation} from "../../../types";
-import {Grid, MenuItem, TextField, Typography} from "@mui/material";
-import {LoadingButton} from "@mui/lab";
-import {TRANSACTION_CATEGORY} from "../../../constants";
 import {selectCreateCategoryError, selectLoadingCreateCategory} from "../categoriesSlice";
 import {createCategory, editCategory} from "../categoriesThunks";
 import {enqueueSnackbar} from "notistack";
+import {Grid, MenuItem, TextField, Typography} from "@mui/material";
+import {LoadingButton} from "@mui/lab";
+import {TRANSACTION_CATEGORY} from "../../../constants";
+import type {CategoryMutation} from "../../../types";
 
 interface Props {
   editedCategory?: CategoryMutation;
@@ -71,7 +71,13 @@ const CategoriesForm: React.FC<Props> = ({editedCategory, isEdit, categoryId}) =
       onSubmit={submitFormHandler}
     >
       <Grid container direction="column" spacing={2}>
-        <Typography component={'h4'} variant={'h4'} sx={{m: 2, fontWeight: 'bolder', textAlign: 'center'}}>Add new transaction category:</Typography>
+        <Typography
+          component={'h4'}
+          variant={'h4'}
+          sx={{m: 2, fontWeight: 'bolder', textAlign: 'center'}}
+        >
+          {isEdit ? 'Edit transaction category:' : 'Add new transaction category:'}
+        </Typography>
         <Grid item xs>
           <TextField
             id="title"
@@ -107,10 +113,9 @@ const CategoriesForm: React.FC<Props> = ({editedCategory, isEdit, categoryId}) =
             color="success"
             variant="contained"
           >
-            Add
+            {isEdit ? "Edit" : "Add"}
           </LoadingButton>
         </Grid>
-
       </Grid>
     </form>
   );
