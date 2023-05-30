@@ -19,6 +19,19 @@ accountTypesRouter.get('/', auth, async (req, res, next) => {
   }
 });
 
+accountTypesRouter.get('/:id', auth, async (req, res, next) => {
+  try {
+    const accountTypes = await AccountType.findById(req.params.id);
+
+    return res.send(accountTypes);
+  } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(error);
+    }
+    return next(error);
+  }
+});
+
 accountTypesRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
   try {
     const newAccountType = await AccountType.create({

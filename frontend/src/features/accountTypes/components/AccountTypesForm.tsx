@@ -5,27 +5,48 @@ import {Grid, TextField, Typography} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import {AccountTypeMutation} from "../../../types";
 import {selectCreateAccountTypeError, selectLoadingCreateAccountType} from "../accountTypesSlice";
-import {createAccountType} from "../accountTypesThunks";
+import {createAccountType, editAccountType} from "../accountTypesThunks";
 import FileInput from "../../../components/UI/FileInput";
 import {enqueueSnackbar} from "notistack";
 
-const AccountTypesForm: React.FC = () => {
+interface Props {
+  editedAccountType?: AccountTypeMutation;
+  isEdit?: boolean;
+  accountTypeId?: string;
+}
+
+const AccountTypesForm: React.FC<Props> = ({editedAccountType, isEdit, accountTypeId}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const loadingAddBtn = useAppSelector(selectLoadingCreateAccountType);
   const error = useAppSelector(selectCreateAccountTypeError);
 
-  const [state, setState] = useState<AccountTypeMutation>({
-    title: "",
-    image: null,
-  });
+
+
+  const initialState = editedAccountType
+    ? {
+      ...editedAccountType,
+    }
+    : {
+      title: "",
+      image: null,
+    };
+
+  const [state, setState] = useState<AccountTypeMutation>(initialState);
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(createAccountType(state)).unwrap();
-      enqueueSnackbar('Account type added!', {variant: 'success'});
-      navigate('/');
+      if (isEdit) {
+        await dispatch(editAccountType({accountType: state, id: accountTypeId as string})).unwrap()
+        enqueueSnackbar('Account type updated!', {variant: 'success'});
+        navigate('/');
+      } else {
+        await dispatch(createAccountType(state)).unwrap();
+        enqueueSnackbar('Account type added!', {variant: 'success'});
+        navigate('/');
+      }
+
     } catch (e) {
       console.log(e);
     }

@@ -1,10 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
 import {AccountType, ValidationError} from "../../types";
-import {createAccountType, fetchAccountTypes, removeAccountType} from "./accountTypesThunks";
+import {
+  createAccountType,
+  editAccountType,
+  fetchAccountTypes,
+  fetchOneAccountType,
+  removeAccountType
+} from "./accountTypesThunks";
 
 interface AccountTypesState {
   accountTypes: AccountType[];
+  accountType: AccountType | null
   loading: boolean;
   loadingCreateAccountType: boolean;
   loadingRemoveAccountType: false | string;
@@ -14,6 +21,7 @@ interface AccountTypesState {
 
 const initialState: AccountTypesState = {
   accountTypes: [],
+  accountType: null,
   loading: false,
   loadingCreateAccountType: false,
   loadingRemoveAccountType: false,
@@ -39,6 +47,21 @@ export const accountTypesSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
+
+    builder.addCase(fetchOneAccountType.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(fetchOneAccountType.fulfilled, (state, action) => {
+      state.loading = false;
+      state.accountType = action.payload;
+      state.error = false;
+    });
+    builder.addCase(fetchOneAccountType.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
+
     builder.addCase(createAccountType.pending, (state) => {
       state.loadingCreateAccountType = true;
       state.createAccountTypeError = null;
@@ -47,6 +70,17 @@ export const accountTypesSlice = createSlice({
       state.loadingCreateAccountType = false;
     });
     builder.addCase(createAccountType.rejected, (state, {payload: error}) => {
+      state.loadingCreateAccountType = false;
+      state.createAccountTypeError = error || null;
+    });
+    builder.addCase(editAccountType.pending, (state) => {
+      state.loadingCreateAccountType = true;
+      state.createAccountTypeError = null;
+    });
+    builder.addCase(editAccountType.fulfilled, (state) => {
+      state.loadingCreateAccountType = false;
+    });
+    builder.addCase(editAccountType.rejected, (state, {payload: error}) => {
       state.loadingCreateAccountType = false;
       state.createAccountTypeError = error || null;
     });
@@ -68,6 +102,7 @@ export const accountTypesSlice = createSlice({
 export const accountTypesReducer = accountTypesSlice.reducer;
 
 export const selectAccountTypes = (state: RootState) => state.accountTypes.accountTypes;
+export const selectOneAccountType = (state: RootState) => state.accountTypes.accountType;
 export const selectLoading = (state: RootState) => state.accountTypes.loading;
 export const selectLoadingCreateAccountType = (state: RootState) => state.accountTypes.loadingCreateAccountType;
 export const selectLoadingRemoveAccountType = (state: RootState) => state.accountTypes.loadingRemoveAccountType;

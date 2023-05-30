@@ -26,7 +26,7 @@ export interface AccountType {
 
 export interface AccountTypeMutation {
   title: string;
-  image: File | null;
+  image: File | null | string;
 }
 
 export interface Transaction {
