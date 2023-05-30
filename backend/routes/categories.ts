@@ -1,13 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
-import auth from "../middleware/auth";
+import auth, {RequestWithUser} from "../middleware/auth";
 import Category from "../models/Category";
 import Transaction from "../models/Transaction";
 const categoriesRouter = express.Router();
 
 categoriesRouter.get('/', auth, async (req, res, next) => {
   try {
-    const categories = await Category.find();
+    const user = (req as RequestWithUser).user;
+    const categories = await Category.find({user: user._id});
 
     return res.send(categories);
   } catch (error) {
@@ -20,7 +21,8 @@ categoriesRouter.get('/', auth, async (req, res, next) => {
 
 categoriesRouter.get('/:id', auth, async (req, res, next) => {
   try {
-    const categories = await Category.findById(req.params.id);
+    const user = (req as RequestWithUser).user;
+    const categories = await Category.findOne({id: req.params.id, user: user._id});
 
     return res.send(categories);
   } catch (error) {
@@ -33,13 +35,17 @@ categoriesRouter.get('/:id', auth, async (req, res, next) => {
 
 categoriesRouter.post('/', auth, async (req, res, next) => {
   try {
-    const newCategory = await Category.create({
-      title: req.body.title,
-      type: req.body.type,
-    });
+    const user = (req as RequestWithUser).user;
 
-    return res.send({message: 'Category added', category: newCategory});
+    if (user) {
+      const newCategory = await Category.create({
+        user: user._id,
+        title: req.body.title,
+        type: req.body.type,
+      });
 
+      return res.send({message: 'Category added', category: newCategory});
+    }
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
@@ -50,9 +56,10 @@ categoriesRouter.post('/', auth, async (req, res, next) => {
 
 categoriesRouter.delete('/:id', auth, async (req, res, next) => {
   try {
-    const category = await Category.findById(req.params.id);
-    const transactions = await Transaction.find({category: category?._id})
+    const user = (req as RequestWithUser).user;
 
+    const category = await Category.findOne({id: req.params.id, user: user._id});
+    const transactions = await Transaction.find({category: category?._id})
 
     if (transactions.length) {
       return res.status(403).send({message: 'First delete all transactions with this category'})
@@ -72,7 +79,9 @@ categoriesRouter.delete('/:id', auth, async (req, res, next) => {
 
 categoriesRouter.patch('/:id', auth, async (req, res) => {
   try {
-    const category = await Category.updateOne({_id: req.params.id}, {
+    const user = (req as RequestWithUser).user;
+
+    const category = await Category.updateOne({_id: req.params.id, user: user._id}, {
       $set: {
         title: req.body.title,
       },

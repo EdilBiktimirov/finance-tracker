@@ -9,11 +9,13 @@ export interface IAccount {
 }
 
 export interface IAccountType {
+  user: ObjectId;
   title: string;
   image: string;
 }
 
 export interface ICategory {
+  user: ObjectId;
   title: string;
   type: string;
 }
@@ -27,10 +29,6 @@ export interface ITransaction {
   comment: string;
 }
 
-export interface ITransactionCategory {
-  title: string;
-  type: string;
-}
 
 export interface IUser {
   email: string;

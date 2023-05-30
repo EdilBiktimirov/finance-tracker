@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import auth from "../middleware/auth";
+import auth, {RequestWithUser} from "../middleware/auth";
 import AccountType from "../models/AccountType";
 import {imagesUpload} from "../multer";
 import Account from "../models/Account";
@@ -9,7 +9,8 @@ const accountTypesRouter = express.Router();
 
 accountTypesRouter.get('/', auth, async (req, res, next) => {
   try {
-    const accountTypes = await AccountType.find();
+    const user = (req as RequestWithUser).user;
+    const accountTypes = await AccountType.find({user: user._id});
 
     return res.send(accountTypes);
   } catch (error) {
@@ -22,7 +23,9 @@ accountTypesRouter.get('/', auth, async (req, res, next) => {
 
 accountTypesRouter.get('/:id', auth, async (req, res, next) => {
   try {
-    const accountTypes = await AccountType.findById(req.params.id);
+    const user = (req as RequestWithUser).user;
+
+    const accountTypes = await AccountType.findOne({id: req.params.id, user: user._id});
 
     return res.send(accountTypes);
   } catch (error) {
@@ -35,13 +38,17 @@ accountTypesRouter.get('/:id', auth, async (req, res, next) => {
 
 accountTypesRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
   try {
-    const newAccountType = await AccountType.create({
-      title: req.body.title,
-      image: req.file && req.file.filename,
-    });
+    const user = (req as RequestWithUser).user;
 
-    return res.send({message: 'Account type added', accountType: newAccountType});
+    if (user) {
+      const newAccountType = await AccountType.create({
+        user: user._id,
+        title: req.body.title,
+        image: req.file && req.file.filename,
+      });
 
+      return res.send({message: 'Account type added', accountType: newAccountType});
+    }
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
@@ -52,9 +59,10 @@ accountTypesRouter.post('/', auth, imagesUpload.single('image'), async (req, res
 
 accountTypesRouter.delete('/:id', auth, async (req, res, next) => {
   try {
-    const accountType = await AccountType.findById(req.params.id);
-    const account = await Account.find({accountType: accountType?._id})
+    const user = (req as RequestWithUser).user;
 
+    const accountType = await AccountType.findOne({id: req.params.id, user: user._id});
+    const account = await Account.find({accountType: accountType?._id, user: user._id});
 
     if (account.length) {
       return res.status(403).send({message: 'First delete all accounts with this type'})
@@ -74,7 +82,9 @@ accountTypesRouter.delete('/:id', auth, async (req, res, next) => {
 
 accountTypesRouter.patch('/:id', auth, imagesUpload.single('image'), async (req, res) => {
   try {
-    const accountType = await AccountType.updateOne({_id: req.params.id}, {
+    const user = (req as RequestWithUser).user;
+
+    const accountType = await AccountType.updateOne({_id: req.params.id, user: user._id}, {
       $set: {
         title: req.body.title,
         image: req.file && req.file.filename,
