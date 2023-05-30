@@ -3,6 +3,7 @@ import axiosApi from "../../axiosApi";
 import {AccountType, AccountTypeMutation, ValidationError} from "../../types";
 import {RootState} from "../../app/store";
 import {isAxiosError} from "axios";
+import {enqueueSnackbar} from "notistack";
 
 export const fetchAccountTypes = createAsyncThunk<AccountType[]>(
   'accountTypes/fetchAll',
@@ -46,13 +47,18 @@ export const createAccountType = createAsyncThunk<void, AccountTypeMutation, { s
     }
   });
 
-export const removeAccountType = createAsyncThunk<void, string>(
+export const removeAccountType = createAsyncThunk<void, string, {rejectValue: ValidationError }>(
   'accountTypes/removeOne',
-  async (id) => {
+  async (id, {rejectWithValue}) => {
     try {
-      await axiosApi.delete('/accounts/' + id);
-    } catch {
-      throw new Error();
+       await axiosApi.delete('/account-types/' + id);
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as ValidationError);
+      } else if (isAxiosError(e) && e.response && e.response.status === 403) {
+        enqueueSnackbar(e.response.data.message, {variant: 'error'});
+      }
+      throw e;
     }
   });
 

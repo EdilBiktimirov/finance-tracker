@@ -40,7 +40,7 @@ const AccountTypesForm: React.FC<Props> = ({editedAccountType, isEdit, accountTy
       if (isEdit) {
         await dispatch(editAccountType({accountType: state, id: accountTypeId as string})).unwrap()
         enqueueSnackbar('Account type updated!', {variant: 'success'});
-        navigate('/');
+        navigate('/cabinet/account-types');
       } else {
         await dispatch(createAccountType(state)).unwrap();
         enqueueSnackbar('Account type added!', {variant: 'success'});
