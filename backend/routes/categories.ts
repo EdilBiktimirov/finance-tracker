@@ -18,6 +18,19 @@ categoriesRouter.get('/', auth, async (req, res, next) => {
   }
 });
 
+categoriesRouter.get('/:id', auth, async (req, res, next) => {
+  try {
+    const categories = await Category.findById(req.params.id);
+
+    return res.send(categories);
+  } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(error);
+    }
+    return next(error);
+  }
+});
+
 categoriesRouter.post('/', auth, async (req, res, next) => {
   try {
     const newCategory = await Category.create({

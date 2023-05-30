@@ -6,26 +6,44 @@ import {Grid, MenuItem, TextField, Typography} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import {TRANSACTION_CATEGORY} from "../../../constants";
 import {selectCreateCategoryError, selectLoadingCreateCategory} from "../categoriesSlice";
-import {createCategory} from "../categoriesThunks";
+import {createCategory, editCategory} from "../categoriesThunks";
 import {enqueueSnackbar} from "notistack";
 
-const CategoriesForm = () => {
+interface Props {
+  editedCategory?: CategoryMutation;
+  isEdit?: boolean;
+  categoryId?: string;
+}
+
+const CategoriesForm: React.FC<Props> = ({editedCategory, isEdit, categoryId}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const loadingAddBtn = useAppSelector(selectLoadingCreateCategory);
   const error = useAppSelector(selectCreateCategoryError);
 
-  const [state, setState] = useState<CategoryMutation>({
-    title: "",
-    type: "",
-  });
+  const initialState = editedCategory
+    ? {
+      ...editedCategory,
+    }
+    : {
+      title: "",
+      type: "",
+    };
+
+  const [state, setState] = useState<CategoryMutation>(initialState);
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(createCategory(state)).unwrap();
-      enqueueSnackbar('Transaction category added!', {variant: 'success'});
-      navigate('/');
+      if (isEdit) {
+        await dispatch(editCategory({category: state, id: categoryId as string}));
+        enqueueSnackbar('Category was updated!!', {variant: 'success'});
+        navigate('/cabinet/categories');
+      } else {
+        await dispatch(createCategory(state)).unwrap();
+        enqueueSnackbar('Transaction category added!', {variant: 'success'});
+        navigate('/');
+      }
     } catch (e) {
       console.log(e);
     }
@@ -74,6 +92,7 @@ const CategoriesForm = () => {
             label="Type"
             onChange={inputChangeHandler}
             required
+            disabled={isEdit}
           >
             <MenuItem value="" disabled>Please select an account</MenuItem>
             {TRANSACTION_CATEGORY.map((type) => (

@@ -11,6 +11,13 @@ export const fetchCategories = createAsyncThunk<Category[]>(
     return response.data;
   });
 
+export const fetchOneCategory = createAsyncThunk<Category, string>(
+  'categories/fetchOne',
+  async (id) => {
+    const response = await axiosApi.get<Category>('/categories/' + id);
+    return response.data;
+  });
+
 export const createCategory = createAsyncThunk<void, CategoryMutation, { state: RootState, rejectValue: ValidationError }>(
   'categories/createCategory',
   async (category, {getState, rejectWithValue}) => {
@@ -38,6 +45,28 @@ export const removeCategory = createAsyncThunk<void, string, { state: RootState 
       }
     } catch {
       throw new Error();
+    }
+  });
+
+interface UpdatedData {
+  category: CategoryMutation,
+  id: string
+}
+
+export const editCategory = createAsyncThunk<void, UpdatedData, { state: RootState, rejectValue: ValidationError }>(
+  'categories/editCategory',
+  async (data, {getState, rejectWithValue}) => {
+    try {
+      const user = getState().users.user;
+
+      if (user) {
+        await axiosApi.patch('/categories/' + data.id, data.category);
+      }
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as ValidationError);
+      }
+      throw e;
     }
   });
 

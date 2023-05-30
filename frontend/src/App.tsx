@@ -12,6 +12,8 @@ import AddAccount from "./features/accounts/AddAccount";
 import AccountTypesForm from "./features/accountTypes/components/AccountTypesForm";
 import EditAccountTypes from "./features/accountTypes/EditAccountTypes";
 import AccountTypes from "./features/accountTypes/AccountTypes";
+import EditCategory from "./features/categories/EditCategory";
+import Categories from "./features/categories/Categories";
 
 //добавить протектед роут
 function App() {
@@ -28,6 +30,8 @@ function App() {
           <Route path={'/statistics/:id'} element={<Statistics/>}/>
           <Route path={'/cabinet/account-types/'} element={<AccountTypes/>}/>
           <Route path={'/cabinet/edit-account-type/:id'} element={<EditAccountTypes/>}/>
+          <Route path={'/cabinet/categories'} element={<Categories/>}/>
+          <Route path={'/cabinet/edit-category/:id'} element={<EditCategory/>}/>
           <Route path={'/register'} element={<Register/>}/>
           <Route path={'/login'} element={<Login/>}/>
           <Route path={'*'} element={<h2>Not found</h2>}/>
