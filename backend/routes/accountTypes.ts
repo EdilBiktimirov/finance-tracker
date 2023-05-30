@@ -53,9 +53,8 @@ accountTypesRouter.post('/', auth, imagesUpload.single('image'), async (req, res
 accountTypesRouter.delete('/:id', auth, async (req, res, next) => {
   try {
     const accountType = await AccountType.findById(req.params.id);
-    console.log(accountType)
     const account = await Account.find({accountType: accountType?._id})
-    console.log(account)
+
 
     if (account.length) {
       return res.status(403).send({message: 'First delete all accounts with this type'})

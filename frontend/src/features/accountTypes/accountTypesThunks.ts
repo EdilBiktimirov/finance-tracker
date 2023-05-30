@@ -47,11 +47,14 @@ export const createAccountType = createAsyncThunk<void, AccountTypeMutation, { s
     }
   });
 
-export const removeAccountType = createAsyncThunk<void, string, {rejectValue: ValidationError }>(
+export const removeAccountType = createAsyncThunk<void, string, {state: RootState, rejectValue: ValidationError }>(
   'accountTypes/removeOne',
-  async (id, {rejectWithValue}) => {
+  async (id, {getState, rejectWithValue}) => {
     try {
-       await axiosApi.delete('/account-types/' + id);
+      const user = getState().users.user;
+      if (user) {
+        await axiosApi.delete('/account-types/' + id);
+      }
     } catch (e) {
       if (isAxiosError(e) && e.response && e.response.status === 400) {
         return rejectWithValue(e.response.data as ValidationError);

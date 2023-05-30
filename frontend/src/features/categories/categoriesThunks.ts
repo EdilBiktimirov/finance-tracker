@@ -3,6 +3,7 @@ import axiosApi from "../../axiosApi";
 import {Category, CategoryMutation, ValidationError} from "../../types";
 import {RootState} from "../../app/store";
 import {isAxiosError} from "axios";
+import {enqueueSnackbar} from "notistack";
 
 export const fetchCategories = createAsyncThunk<Category[]>(
   'categories/fetchAll',
@@ -35,16 +36,21 @@ export const createCategory = createAsyncThunk<void, CategoryMutation, { state: 
     }
   });
 
-export const removeCategory = createAsyncThunk<void, string, { state: RootState }>(
+export const removeCategory = createAsyncThunk<void, string, { state: RootState, rejectValue: ValidationError }>(
   'categories/removeOne',
-  async (id, {getState}) => {
+  async (id, {getState, rejectWithValue}) => {
     try {
       const user = getState().users.user;
       if (user) {
         await axiosApi.delete('/categories/' + id);
       }
-    } catch {
-      throw new Error();
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as ValidationError);
+      } else if (isAxiosError(e) && e.response && e.response.status === 403) {
+        enqueueSnackbar(e.response.data.message, {variant: 'error'});
+      }
+      throw e;
     }
   });
 

@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import auth from "../middleware/auth";
 import Category from "../models/Category";
-
+import Transaction from "../models/Transaction";
 const categoriesRouter = express.Router();
 
 categoriesRouter.get('/', auth, async (req, res, next) => {
@@ -50,6 +50,14 @@ categoriesRouter.post('/', auth, async (req, res, next) => {
 
 categoriesRouter.delete('/:id', auth, async (req, res, next) => {
   try {
+    const category = await Category.findById(req.params.id);
+    const transactions = await Transaction.find({category: category?._id})
+
+
+    if (transactions.length) {
+      return res.status(403).send({message: 'First delete all transactions with this category'})
+    }
+
     const result = await Category.deleteOne({_id: req.params.id});
 
     if (result.deletedCount) {
