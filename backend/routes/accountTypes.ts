@@ -50,4 +50,23 @@ accountTypesRouter.delete('/:id', auth, async (req, res, next) => {
   }
 });
 
+accountTypesRouter.patch('/:id', auth, imagesUpload.single('image'), async (req, res) => {
+  try {
+    const accountType = await AccountType.updateOne({_id: req.params.id}, {
+      $set: {
+        title: req.body.title,
+        image: req.file && req.file.filename,
+      },
+    });
+
+    if (accountType.modifiedCount < 1) {
+      res.status(404).send({ message: 'Cant find Account type' });
+    } else {
+      res.send({accountType, message: 'Account type was updated'});
+    }
+  } catch {
+    return res.sendStatus(500);
+  }
+});
+
 export default accountTypesRouter;

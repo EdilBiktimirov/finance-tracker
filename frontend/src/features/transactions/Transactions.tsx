@@ -25,7 +25,7 @@ const Transactions = () => {
   useEffect(() => {
     dispatch(fetchOneAccount(id));
     dispatch(fetchTransactions(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
 
   return (
