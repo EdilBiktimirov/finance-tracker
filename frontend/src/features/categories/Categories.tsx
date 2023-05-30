@@ -2,8 +2,9 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {fetchCategories, removeCategory} from "./categoriesThunks";
 import {selectCategories, selectLoading} from "./categoriesSlice";
-import {Box, CircularProgress} from "@mui/material";
+import {Box, Button, CircularProgress} from "@mui/material";
 import CategoryCard from "./components/CategoryCard";
+import {Link} from "react-router-dom";
 
 const Categories = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const Categories = () => {
 
   useEffect(() => {
     dispatch(fetchCategories());
-  }, [dispatch])
+  }, [dispatch]);
 
 
   return (
@@ -28,6 +29,17 @@ const Categories = () => {
       </Box> : categories.map((category) => {
         return <CategoryCard category={category} onDeleteBtnClick={() => deleteCategory(category._id)}/>
       })}
+
+      {!categories.length && <Button
+          component={Link}
+          to={'/add-new-category'}
+          color="info"
+          variant="outlined"
+          size="small"
+          sx={{fontWeight: 'bold'}}
+      >
+          Create new transaction category
+      </Button>}
     </div>
   );
 };

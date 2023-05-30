@@ -139,7 +139,7 @@ transactionsRouter.post('/', auth, async (req, res, next) => {
 
     dayjs.extend(utc);
 
-    const newTransaction = await Transaction.create({
+    const newTransaction = await new Transaction({
       user: user._id,
       account: req.body.account,
       category: req.body.category,
@@ -166,6 +166,8 @@ transactionsRouter.post('/', auth, async (req, res, next) => {
         {_id: req.body.account},
         {$inc: {amount: -req.body.sum}})
     }
+
+    newTransaction.save();
 
     return res.send({message: 'Transaction added', transaction: newTransaction});
 

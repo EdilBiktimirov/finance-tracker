@@ -25,7 +25,10 @@ accountTypesRouter.get('/:id', auth, async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
 
-    const accountTypes = await AccountType.findOne({id: req.params.id, user: user._id});
+    console.log(user._id)
+
+    const accountTypes = await AccountType.findOne({_id: req.params.id, user: user._id});
+    console.log(accountTypes)
 
     return res.send(accountTypes);
   } catch (error) {
@@ -61,7 +64,7 @@ accountTypesRouter.delete('/:id', auth, async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
 
-    const accountType = await AccountType.findOne({id: req.params.id, user: user._id});
+    const accountType = await AccountType.findOne({_id: req.params.id, user: user._id});
     const account = await Account.find({accountType: accountType?._id, user: user._id});
 
     if (account.length) {

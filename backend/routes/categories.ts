@@ -22,7 +22,7 @@ categoriesRouter.get('/', auth, async (req, res, next) => {
 categoriesRouter.get('/:id', auth, async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
-    const categories = await Category.findOne({id: req.params.id, user: user._id});
+    const categories = await Category.findOne({_id: req.params.id, user: user._id});
 
     return res.send(categories);
   } catch (error) {
@@ -58,7 +58,7 @@ categoriesRouter.delete('/:id', auth, async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
 
-    const category = await Category.findOne({id: req.params.id, user: user._id});
+    const category = await Category.findOne({_id: req.params.id, user: user._id});
     const transactions = await Transaction.find({category: category?._id})
 
     if (transactions.length) {

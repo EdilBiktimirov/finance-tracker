@@ -1,8 +1,8 @@
 import React, {MouseEventHandler} from 'react';
 import {AccountType} from "../../../types";
-import {Box, Typography} from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import {apiUrl} from "../../../constants";
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 import {LoadingButton} from "@mui/lab";
 import {useAppSelector} from "../../../app/hooks";
 import {selectLoadingRemoveAccountType} from "../accountTypesSlice";
@@ -18,20 +18,40 @@ const AccountTypeCard: React.FC<Props> = ({accountType, onDeleteBtnClick}) => {
   const cardImage = apiUrl + '/' + accountType.image;
 
   return (
-    <Box border={1}>
-      <img src={cardImage} alt={accountType.title}/>
-      <Typography>{accountType.title}</Typography>
-      <Link to={'/cabinet/edit-account-type/' + accountType._id}>Edit</Link>
-      <LoadingButton
-        color="error"
-        size="small"
-        variant="outlined"
-        sx={{fontWeight: 'bold', mx: 'auto', mb: 2, display: 'block'}}
-        loading={loadingRemoveBtn ? loadingRemoveBtn === accountType._id : false}
-        onClick={onDeleteBtnClick}>
-        Delete
-      </LoadingButton>
-    </Box>
+    <Grid container
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{p: 1, mb: 2, border: 1, borderRadius: '8px', boxShadow: 1}}>
+      <Grid item sx={{width: '200px', height: 'auto'}}>
+        <img src={cardImage} alt={accountType.title} style={{width: '100%', height: 'auto'}}/>
+      </Grid>
+      <Grid item>
+        <Typography>{accountType.title}</Typography>
+      </Grid>
+
+      <Grid item>
+        <Button
+          component={Link}
+          to={'/cabinet/edit-account-type/' + accountType._id}
+          color="info"
+          variant="outlined"
+          size="small"
+          sx={{mb: 2, fontWeight: 'bold'}}
+        >
+          Edit
+        </Button>
+        <LoadingButton
+          color="error"
+          size="small"
+          variant="outlined"
+          sx={{fontWeight: 'bold', mx: 'auto', display: 'block'}}
+          loading={loadingRemoveBtn ? loadingRemoveBtn === accountType._id : false}
+          onClick={onDeleteBtnClick}>
+          Delete
+        </LoadingButton>
+      </Grid>
+
+    </Grid>
   );
 };
 

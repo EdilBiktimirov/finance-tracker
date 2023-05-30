@@ -17,7 +17,6 @@ const AccountTypeSchema = new Schema<IAccountType>({
   title: {
     type: String,
     required: true,
-    unique: true,
   },
   image: {
     type: String,

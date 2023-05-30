@@ -20,6 +20,7 @@ export interface AccountMutation {
 
 export interface AccountType {
   _id: string;
+  user: string;
   title: string;
   image: string;
 }
@@ -56,6 +57,7 @@ export interface TransactionMutation {
 
 export interface Category {
   _id: string;
+  user: string;
   title: string;
   type: string;
 }

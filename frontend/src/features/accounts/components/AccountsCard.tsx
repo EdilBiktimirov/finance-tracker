@@ -1,5 +1,12 @@
 import React, {MouseEventHandler} from 'react';
-import {Card, CardActionArea, CardContent, CardMedia, Grid, Typography} from "@mui/material";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography
+} from "@mui/material";
 import {Account} from "../../../types";
 import {useAppSelector} from "../../../app/hooks";
 import {apiUrl} from "../../../constants";
@@ -16,6 +23,7 @@ const AccountsCard: React.FC<Props> = ({account, onDeleteBtnClick}) => {
   const navigate = useNavigate();
   const loadingRemoveBtn = useAppSelector(selectLoadingRemoveAccount);
   let cardImage = apiUrl + '/' + account.accountType.image;
+
 
   return (
     <Grid item>

@@ -64,15 +64,21 @@ const UserMenu: React.FC<Props> = ({user}) => {
       >
         <MenuItem
           component={Link}
-          onClick={() => onMenuItemClick('/add-new-account-type')}
-        >
-          Add account type
-        </MenuItem>
-        <MenuItem
-          component={Link}
           onClick={() => onMenuItemClick('/add-new-account')}
         >
           Add account
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          onClick={() => onMenuItemClick('/add-new-transaction')}
+        >
+          Add transaction
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          onClick={() => onMenuItemClick('/add-new-account-type')}
+        >
+          Add account type
         </MenuItem>
         <MenuItem
           component={Link}
@@ -82,9 +88,15 @@ const UserMenu: React.FC<Props> = ({user}) => {
         </MenuItem>
         <MenuItem
           component={Link}
-          onClick={() => onMenuItemClick('/add-new-transaction')}
+          onClick={() => onMenuItemClick('/cabinet/account-types')}
         >
-          Add transaction
+          Account types
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          onClick={() => onMenuItemClick('cabinet/categories')}
+        >
+          Transactions category
         </MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>

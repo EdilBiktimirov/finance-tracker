@@ -36,14 +36,17 @@ const run = async () => {
     avatar: 'fixtures/userAvatar.jpg'
   });
 
-  const [wallet, card] = await AccountType.create(
+  const [wallet, card, credit] = await AccountType.create(
     {
+      user: user1._id,
       title: 'Wallet',
       image: "fixtures/wallet.jpeg",
     }, {
+      user: user1._id,
       title: 'Bank Card',
       image: "fixtures/card.png",
     }, {
+      user: user1._id,
       title: 'Credit Card',
       image: "fixtures/card.png",
     },);

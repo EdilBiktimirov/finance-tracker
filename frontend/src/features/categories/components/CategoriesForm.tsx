@@ -42,7 +42,7 @@ const CategoriesForm: React.FC<Props> = ({editedCategory, isEdit, categoryId}) =
       } else {
         await dispatch(createCategory(state)).unwrap();
         enqueueSnackbar('Transaction category added!', {variant: 'success'});
-        navigate('/');
+        navigate('/cabinet/categories');
       }
     } catch (e) {
       console.log(e);
