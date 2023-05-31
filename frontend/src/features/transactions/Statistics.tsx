@@ -59,7 +59,7 @@ const Statistics = () => {
 
   if (statistics.length) {
     statisticsBox = (<BarChart
-      width={800}
+      width={900}
       height={400}
       data={statistics}
       margin={{
