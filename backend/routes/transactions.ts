@@ -43,7 +43,7 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
       },
       {
         $addFields: {
-          dateString: { $dateToString: { format: '%d.%m.%Y', date: '$createdAt', timezone: 'GMT' } },
+          dateString: {$dateToString: {format: '%d.%m.%Y', date: '$createdAt', timezone: 'GMT'}},
         },
       },
       {
@@ -51,19 +51,19 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
           _id: {
             dateString: '$dateString',
             type: {
-              $cond: [{ $eq: ['$category', new Types.ObjectId(category as string)] }, 'income', 'expenses']
+              $cond: [{$eq: ['$category', new Types.ObjectId(category as string)]}, 'income', 'expenses']
             },
           },
-          amount: { $sum: '$sum' },
+          amount: {$sum: '$sum'},
         },
       },
       {
         $group: {
           _id: '$_id.dateString',
-          date: { $first: '$_id.dateString' },
+          date: {$first: '$_id.dateString'},
           KGS: {
             $sum: {
-              $cond: [{ $eq: ['$_id.type', 'income'] }, '$amount', 0],
+              $cond: [{$eq: ['$_id.type', 'income']}, '$amount', 0],
             },
           },
         },
@@ -71,7 +71,7 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
       {
         $project: {
           _id: 0,
-          date: { $dateFromString: { dateString: '$date', format: '%d.%m.%Y', timezone: 'GMT' } },
+          date: {$dateFromString: {dateString: '$date', format: '%d.%m.%Y', timezone: 'GMT'}},
           KGS: 1,
         },
       },
@@ -82,7 +82,7 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
       },
       {
         $project: {
-          date: { $dateToString: { format: '%d.%m.%Y', date: '$date', timezone: 'GMT' } },
+          date: {$dateToString: {format: '%d.%m.%Y', date: '$date', timezone: 'GMT'}},
           KGS: 1,
         },
       },
@@ -96,13 +96,6 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
     return next(error);
   }
 });
-
-
-
-
-
-
-
 
 transactionsRouter.get('/:id', auth, async (req, res, next) => {
   try {
@@ -120,7 +113,6 @@ transactionsRouter.get('/:id', auth, async (req, res, next) => {
     return next(error);
   }
 });
-
 
 transactionsRouter.post('/', auth, async (req, res, next) => {
   try {
