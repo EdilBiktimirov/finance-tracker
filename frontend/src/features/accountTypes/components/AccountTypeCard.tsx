@@ -25,7 +25,7 @@ const AccountTypeCard: React.FC<Props> = ({accountType, onDeleteBtnClick}) => {
         <img src={cardImage} alt={accountType.title} style={{width: '100%', height: 'auto'}}/>
       </Grid>
       <Grid item>
-        <Typography>{accountType.title}</Typography>
+        <Typography sx={{fontWeight: 'bolder'}}>{accountType.title}</Typography>
       </Grid>
       <Grid item>
         <Button

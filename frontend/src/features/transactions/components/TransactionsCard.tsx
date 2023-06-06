@@ -23,10 +23,10 @@ const TransactionsCard: React.FC<Props> = ({transaction, onDeleteBtnClick}) => {
   let symbol;
 
   if (transaction.category.type === 'income') {
-    transactionTypeStyle = {color: 'green'};
+    transactionTypeStyle = {color: 'green', fontWeight: 'bolder'};
     symbol = '+';
   } else {
-    transactionTypeStyle = {color: 'red'};
+    transactionTypeStyle = {color: 'red', fontWeight: 'bolder'};
     symbol = '-';
   }
 
@@ -34,13 +34,13 @@ const TransactionsCard: React.FC<Props> = ({transaction, onDeleteBtnClick}) => {
     <Accordion sx={{width: '100%'}}>
       <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
         <Grid item xs>
-          <Typography>{dayjs.utc(transaction.createdAt).format('DD.MM.YY HH:mm')}</Typography>
+          <Typography sx={{color: 'grey'}}>{dayjs.utc(transaction.createdAt).format('DD.MM.YY HH:mm')}</Typography>
         </Grid>
         <Grid item xs>
-          <Typography>{transaction.account.title}</Typography>
+          <Typography sx={{fontWeight: 'bolder', color: 'grey'}}>{transaction.account.title}</Typography>
         </Grid>
         <Grid item xs>
-          <Typography>{transaction.category.title}</Typography>
+          <Typography sx={{fontWeight: 'bolder'}}>{transaction.category.title}</Typography>
         </Grid>
         <Grid item xs>
           <Typography style={transactionTypeStyle}>{symbol + ' ' + transaction.sum + ' KGS'}</Typography>

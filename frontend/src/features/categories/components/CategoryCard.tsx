@@ -13,6 +13,13 @@ interface Props {
 
 const CategoryCard: React.FC<Props> = ({category, onDeleteBtnClick}) => {
   const loadingRemoveBtn = useAppSelector(selectLoadingRemoveCategory);
+  let categoryColor: string;
+
+  if (category.type === 'expenses') {
+    categoryColor = 'red';
+  } else {
+    categoryColor = 'green';
+  }
 
   return (
     <Grid
@@ -21,10 +28,10 @@ const CategoryCard: React.FC<Props> = ({category, onDeleteBtnClick}) => {
       alignItems="center"
       sx={{p: 2, mb: 2, border: 1, borderRadius: '8px', boxShadow: 1}}>
       <Grid item sx={{minWidth: '200px'}}>
-        <Typography>{category.title}</Typography>
+        <Typography sx={{fontWeight: 'bolder'}}>{category.title}</Typography>
       </Grid>
       <Grid item>
-        <Typography>{category.type}</Typography>
+        <Typography sx={{color: categoryColor}}>{category.type}</Typography>
       </Grid>
       <Grid item>
         <Button
