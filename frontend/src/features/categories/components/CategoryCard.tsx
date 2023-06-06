@@ -26,7 +26,7 @@ const CategoryCard: React.FC<Props> = ({category, onDeleteBtnClick}) => {
       container
       justifyContent="space-between"
       alignItems="center"
-      sx={{p: 2, mb: 2, border: 1, borderRadius: '8px', boxShadow: 1}}>
+      sx={{p: 2, mb: 2, border: 1, borderRadius: '8px', boxShadow: 1, background: '#F8F6F4'}}>
       <Grid item sx={{minWidth: '200px'}}>
         <Typography sx={{fontWeight: 'bolder'}}>{category.title}</Typography>
       </Grid>

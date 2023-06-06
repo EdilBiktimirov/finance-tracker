@@ -19,7 +19,7 @@ const AppToolbar = () => {
   const user = useAppSelector(selectUser);
 
   return (
-    <AppBar position="sticky" sx={{mb: 2, background: 'grey'}}>
+    <AppBar position="sticky" sx={{mb: 2, background: '#0E8388'}}>
       <SnackbarProvider />
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">

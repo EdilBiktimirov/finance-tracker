@@ -36,7 +36,7 @@ const Accounts = () => {
     <>
       {loading ? <Box sx={{display: 'flex', justifyContent: 'center'}}>
         <CircularProgress color={'warning'} thickness={6} style={{translate: ''}}/>
-      </Box> : <Grid container gap={3}>
+      </Box> : <Grid container gap={3} justifyContent="space-around">
         {accounts.map((account) => {
           return <AccountsCard
             account={account}
@@ -45,7 +45,8 @@ const Accounts = () => {
         })}
         <Dialog open={open} onClose={handleCancel}>
           <DialogTitle>Warning!</DialogTitle>
-          <DialogContent>Deleting an account will result in a complete deletion of transactions on that account</DialogContent>
+          <DialogContent>Deleting an account will result in a complete deletion of transactions on that
+            account</DialogContent>
           <DialogActions>
             <Button onClick={handleCancel} color="primary">
               Cancel

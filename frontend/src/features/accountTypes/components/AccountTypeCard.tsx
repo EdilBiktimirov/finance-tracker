@@ -20,7 +20,7 @@ const AccountTypeCard: React.FC<Props> = ({accountType, onDeleteBtnClick}) => {
     <Grid container
           justifyContent="space-between"
           alignItems="center"
-          sx={{p: 1, mb: 2, border: 1, borderRadius: '8px', boxShadow: 1}}>
+          sx={{p: 1, mb: 2, border: 1, borderRadius: '8px', boxShadow: 1, background: '#F8F6F4'}}>
       <Grid item sx={{width: '200px', height: 'auto'}}>
         <img src={cardImage} alt={accountType.title} style={{width: '100%', height: 'auto'}}/>
       </Grid>

@@ -31,7 +31,7 @@ const TransactionsCard: React.FC<Props> = ({transaction, onDeleteBtnClick}) => {
   }
 
   return (
-    <Accordion sx={{width: '100%'}}>
+    <Accordion sx={{width: '100%', background: '#F8F6F4'}}>
       <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
         <Grid item xs>
           <Typography sx={{color: 'grey'}}>{dayjs.utc(transaction.createdAt).format('DD.MM.YY HH:mm')}</Typography>
