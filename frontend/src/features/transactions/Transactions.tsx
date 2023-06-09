@@ -7,6 +7,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {fetchOneAccount} from "../accounts/accountsThunks";
 import {selectOneAccount} from "../accounts/accountsSlice";
 import TransactionsCard from "./components/TransactionsCard";
+import dayjs from "dayjs";
 
 const Transactions = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +35,12 @@ const Transactions = () => {
       </Box> : <>
         <Grid item>
           <Typography variant={'h4'} sx={{textAlign: 'center', fontWeight: 'bolder'}}>{account?.title}</Typography>
+          <Typography
+            variant={'subtitle2'}
+            sx={{textAlign: 'center', fontWeight: 'bolder', color: 'grey'}}
+          >
+            {'created at ' + dayjs(account?.createdAt).format('DD.MM.YYYY')}
+          </Typography>
         </Grid>
         <Grid container gap={2} justifyContent="space-between" alignItems="center">
           <Grid item>

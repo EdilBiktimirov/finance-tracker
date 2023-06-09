@@ -26,6 +26,7 @@ transactionsRouter.get('/search', auth, async (req, res, next) => {
     const user = (req as RequestWithUser).user;
     const queryStartDate = new Date(req.query.start as string);
     const queryEndDate = new Date(req.query.end as string);
+    queryEndDate.setUTCHours(23, 59, 59, 999)
     const category = req.query.category;
     const account = req.query.account;
 

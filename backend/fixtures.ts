@@ -38,87 +38,83 @@ const run = async () => {
     avatar: 'fixtures/userAvatar.jpg'
   });
 
-  const [wallet, bankCard, creditCard, eWallet] = await AccountType.create(
-    {
-      user: user1._id,
-      title: 'Wallet',
-      image: "fixtures/wallet.jpeg",
-    }, {
-      user: user1._id,
-      title: 'Bank Card',
-      image: "fixtures/card.png",
-    }, {
-      user: user2._id,
-      title: 'Credit card',
-      image: "fixtures/card.png",
-    }, {
-      user: user2._id,
-      title: 'E-Wallet',
-      image: "fixtures/wallet.jpeg",
-    },);
+  const [wallet, bankCard, creditCard, eWallet] = await AccountType.create({
+    user: user1._id,
+    title: 'Wallet',
+    image: "fixtures/wallet.jpeg",
+  }, {
+    user: user1._id,
+    title: 'Bank Card',
+    image: "fixtures/card.png",
+  }, {
+    user: user2._id,
+    title: 'Credit card',
+    image: "fixtures/card.png",
+  }, {
+    user: user2._id,
+    title: 'E-Wallet',
+    image: "fixtures/wallet.jpeg",
+  });
 
-  const [user1Account1, user1Account2, user2Account1, user2Account2] = await Account.create(
-    {
-      user: user1._id,
-      accountType: wallet._id,
-      title: 'E-money',
-      amount: 30000,
-      createdAt: new Date(),
-    }, {
-      user: user1._id,
-      accountType: bankCard._id,
-      title: 'M bank',
-      amount: 40000,
-      createdAt: new Date(),
-    }, {
-      user: user2._id,
-      accountType: creditCard._id,
-      title: 'Demir bank',
-      amount: 50000,
-      createdAt: new Date(),
-    }, {
-      user: user2._id,
-      accountType: eWallet._id,
-      title: 'PayPal',
-      amount: 60000,
-      createdAt: new Date(),
-    });
+  const [user1Account1, user1Account2, user2Account1, user2Account2] = await Account.create({
+    user: user1._id,
+    accountType: wallet._id,
+    title: 'E-money',
+    amount: 30000,
+    createdAt: '2023-05-29T12:00:00.000+00:00',
+  }, {
+    user: user1._id,
+    accountType: bankCard._id,
+    title: 'Mbank',
+    amount: 40000,
+    createdAt: '2023-05-29T12:00:00.000+00:00',
+  }, {
+    user: user2._id,
+    accountType: creditCard._id,
+    title: 'Demir bank',
+    amount: 50000,
+    createdAt: '2023-05-29T12:00:00.000+00:00',
+  }, {
+    user: user2._id,
+    accountType: eWallet._id,
+    title: 'PayPal',
+    amount: 60000,
+    createdAt: '2023-05-29T12:00:00.000+00:00',
+  });
 
-  const [food, drink, salary, gift] = await Category.create(
-    {
-      user: user1._id,
-      title: 'Food',
-      type: 'expenses'
-    }, {
-      user: user1._id,
-      title: 'Drink',
-      type: 'expenses'
-    }, {
-      user: user1._id,
-      title: 'Salary',
-      type: 'income'
-    }, {
-      user: user1._id,
-      title: 'Gift',
-      type: 'income'
-    },
-    {
-      user: user2._id,
-      title: 'Food',
-      type: 'expenses'
-    }, {
-      user: user2._id,
-      title: 'Drink',
-      type: 'expenses'
-    }, {
-      user: user2._id,
-      title: 'Salary',
-      type: 'income'
-    }, {
-      user: user2._id,
-      title: 'Gift',
-      type: 'income'
-    });
+  const [food, drink, salary, gift] = await Category.create({
+    user: user1._id,
+    title: 'Food',
+    type: 'expenses'
+  }, {
+    user: user1._id,
+    title: 'Drink',
+    type: 'expenses'
+  }, {
+    user: user1._id,
+    title: 'Salary',
+    type: 'income'
+  }, {
+    user: user1._id,
+    title: 'Gift',
+    type: 'income'
+  }, {
+    user: user2._id,
+    title: 'Food',
+    type: 'expenses'
+  }, {
+    user: user2._id,
+    title: 'Drink',
+    type: 'expenses'
+  }, {
+    user: user2._id,
+    title: 'Salary',
+    type: 'income'
+  }, {
+    user: user2._id,
+    title: 'Gift',
+    type: 'income'
+  });
 
   await Transaction.create({
     user: user1._id,
@@ -456,7 +452,7 @@ const run = async () => {
     sum: 700,
     createdAt: '2023-06-01T17:00:00.000+00:00',
     comment: 'Some comment3'
-  },)
+  });
 
   await db.close();
 };
